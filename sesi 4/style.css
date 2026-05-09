@@ -1,0 +1,51 @@
+body    {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.btn-orange {
+    background-color: #FD6F00;
+    border-radius: 5px;
+    border: 1px solid #FD6F00;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-orange:hover {
+    background-color: transparent;
+    color: #FD6F00;
+    border: 1px solid #FD6F00;
+}
+
+.section-title {
+    font-size: 55px;
+    font-weight: 600;
+}
+
+section {
+    padding: 80px 0;
+}
+
+.service-card {
+    border-radius: 14px;
+    background-color: #F8F8F8;
+    padding: 57px 18px 10px 18px;
+}
+
+.service-card img {
+    max-width: 70px;
+}
+
+.service-card h5 {
+    font-size: 32px;
+}
+
+.service-card p {
+    font-size: 19px;
+}
+
