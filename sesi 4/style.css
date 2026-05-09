@@ -14,6 +14,7 @@ body    {
     color: white;
     padding: 0.5rem 1.5rem;
     transition: background 0.3s, color 0.3s;
+    text-decoration: none;
 }
 
 .btn-orange:hover {
@@ -35,6 +36,7 @@ section {
     border-radius: 14px;
     background-color: #F8F8F8;
     padding: 57px 18px 10px 18px;
+    margin-bottom: 20px;
 }
 
 .service-card img {
@@ -49,3 +51,98 @@ section {
     font-size: 19px;
 }
 
+.img-fluid {
+    max-width: 60%;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 40px;
+    }
+
+    h1 {
+        font-size: 60px !important;
+    }
+
+    .btn-orange {
+        padding: 0.5rem 1rem;
+        font-size: 14px;
+    }
+
+    section {
+        padding: 40px 0;
+    }
+
+    .service-card {
+        padding: 30px 10px 10px 10px;
+        margin-bottom: 20px;
+    }
+
+    .service-card h5 {
+        font-size: 24px;
+    }
+
+    .service-card p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 28px;
+        margin-top: 20px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 30px !important;
+    }
+
+    h6 {
+        font-size: 20px;
+    }
+
+    .btn-orange {
+        padding: 0.4rem 0.8rem;
+        font-size: 12px;
+    }
+
+    section {
+        padding: 30px 0;
+    }
+
+    .service-card {
+        padding: 20px 5px 5px 5px;
+    }
+
+    .service-card h5 {
+        font-size: 20px;
+    }
+
+    .service-card p {
+        font-size: 14px;
+    }
+
+    .fw-600 {
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+
+
+}
+
+.custom-footer {
+    background: #c45500;
+}
+
+.custom-footer a {
+    color: #ffffff;
+}
