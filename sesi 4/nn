@@ -1,0 +1,7 @@
+buatkan halaman display produk dengan javascript dan bootstrap css dgn detail berikut :
+1. data produk : nama, harga, deskripsi, gambar, kategori 
+2. gunakan js untuk menampilkan datanya 
+3. tambahkan fitur filter berdasarkan kategori produk 
+4. tambahkan fitur search berdasarkan nama produk
+
+buatkan minimal 20 data produk

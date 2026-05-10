@@ -44,17 +44,17 @@
             </div>
         </div>
     </nav>
-    <section id="home" >
+    <section id="home" class="reveal">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-7 col-sm-12">
+                <div class="col-md-7 col-sm-12 hero-text">
                     <h6 class="fw-600" style="font-size: 24px;">Hi i am</h6>
                     <h6 class="fw-600" style="color: #FD6F00; font-size: 32px;">Alrifathan</h6>
                     <h1 style="font-size: 100px; font-weight: bold;">Web Developer</h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     <a href="#about" class="btn-orange">Learn More</a>
                 </div>
-                <div class="col-md-5 col-sm-12">
+                <div class="col-md-5 col-sm-12 hero-image">
                     <div class="d-flex justify-content-center align-items-center">
                         <img src="Group 2.webp" alt="Profile Picture" class="img-fluid rounded-circle">
                     </div>
@@ -63,7 +63,7 @@
         </div>
     </section>
 <hr/>
-    <section id="about">
+    <section id="about" class="reveal">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-5 col-sm-12">
@@ -103,7 +103,7 @@
         </div>  
     </section>
 
-    <section id="services">
+    <section id="services" class="reveal">
         <div class="container">
             <div class="row ">
                 <div class="col-12 text-center" >
@@ -113,28 +113,28 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="service-card">
+                    <div class="service-card reveal reveal-up">
                         <img src="Group 18499.webp" alt="Service 1" class="img-fluid" alt="icon" style="max-width: 70px;">
                         <h5 class="mt-4">Service 1</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="service-card">
+                    <div class="service-card reveal reveal-up">
                         <img src="Group 18499.webp" alt="Service 1" class="img-fluid" alt="icon" style="max-width: 70px;">
                         <h5 class="mt-4">Service 1</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="service-card">
+                    <div class="service-card reveal reveal-up">
                         <img src="Group 18499.webp" alt="Service 1" class="img-fluid" alt="icon" style="max-width: 70px;">
                         <h5 class="mt-4">Service 1</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="service-card">
+                    <div class="service-card reveal reveal-up">
                         <img src="Group 18499.webp" alt="Service 1" class="img-fluid" alt="icon" style="max-width: 70px;">
                         <h5 class="mt-4">Service 1</h5>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -143,7 +143,7 @@
             </div>
         </div>  
     </section>
-    <section id="projects" >
+    <section id="projects" class="reveal" >
             <div class="container">
                 <div class="row ">
                     <div class="col-12 text-center" >
@@ -154,19 +154,19 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="project-card">
+                            <div class="project-card reveal reveal-up">
                                 <img src="Group 24.webp" alt="Project 1" class="img-fluid" alt="icon" rounded mb-3">
                                 <h5 class="mt-3">Airlanding Page Design</h5>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="project-card">
+                            <div class="project-card reveal reveal-up">
                                 <img src="Group 24.webp" alt="Project 1" class="img-fluid" alt="icon" rounded mb-3">
                                 <h5 class="mt-3">Airlanding Page Design</h5>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="project-card">
+                            <div class="project-card reveal reveal-up">
                                 <img src="Group 24.webp" alt="Project 1" class="img-fluid" alt="icon" rounded mb-3">
                                 <h5 class="mt-3">Airlanding Page Design</h5>
                             </div>
@@ -174,7 +174,7 @@
                 </div>
             </div>
     </section>
-    <section>
+    <section class="reveal">
          <div class="container">
             <div class="col-12 text-center">
                 <div style="max-width: 700px;" class="m-auto">
@@ -197,7 +197,7 @@
             </div>
         </div>      
     </section>
-    <section id="contact">
+    <section id="contact" class="reveal">
         <div class="container col-12">
             <div class="col-12 text-center">
                 <div style="max-width: 700px;" class="m-auto">
@@ -218,7 +218,6 @@
     <footer class="py-4 custom-footer text-center text-white">
         <div class="container">
             <p class="mb-2">&copy; 2026 Tugas batch 7 sesi 4. Dibuat dengan Bootstrap dan JavaScript.</p>
-            <small class="text-white-50">Responsif dan tampil modern di semua layar.</small>
         </div>
     </footer>
 
@@ -231,6 +230,36 @@
         pagination: {
         el: ".swiper-pagination",
           },
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const heroText = document.querySelector('.hero-text');
+            const heroImage = document.querySelector('.hero-image');
+
+            if (heroText) {
+                heroText.style.transform = `translateY(${Math.min(scrollTop * 0.05, 25)}px)`;
+            }
+            if (heroImage) {
+                heroImage.style.transform = `translateY(${Math.min(scrollTop * 0.08, 30)}px)`;
+            }
         });
     </script>
 
