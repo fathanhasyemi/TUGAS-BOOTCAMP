@@ -127,4 +127,3 @@ UPDATE products SET stok = 5 WHERE id = 1;
 -- DELETE
 DELETE FROM products WHERE id = 1;
 
-
