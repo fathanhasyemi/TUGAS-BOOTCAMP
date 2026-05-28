@@ -18,6 +18,7 @@ class ProdukSeeder extends Seeder
                 'name' => 'Smartphone Gacor X',
                 'description' => 'HP spesifikasi tinggi ramah di kantong.',
                 'stock' => 50,
+                'harga' => 250000,
                 'image' => 'smartphone.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -26,6 +27,7 @@ class ProdukSeeder extends Seeder
                 'name' => 'kaos Polo hitam',
                 'description' => 'baju spesifikasi tinggi ramah di kantong.',
                 'stock' => 40,
+                'harga' => 250000,
                 'image' => 'kaos-hitam.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -34,6 +36,7 @@ class ProdukSeeder extends Seeder
                 'name' => 'Susu protein',
                 'description' => 'gainer mass spesifikasi tinggi ramah di kantong.',
                 'stock' => 60,
+                'harga' => 250000,
                 'image' => 'fitlife.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
