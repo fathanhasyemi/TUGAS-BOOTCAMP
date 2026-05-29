@@ -8,7 +8,7 @@ use App\Http\Controllers\PageController;
 Route::get('/', [PageController::class, 'index']);
 
 // 2. Halaman Keranjang dipanggil lewat PageController
-Route::get('/keranjang', [PageController::class, 'cart']);
+Route::get('/cart', [PageController::class, 'cart']);
 
 // 3. Halaman Daftar Produk dipanggil lewat ProductController
-Route::get('/produk', [ProductController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index']);
