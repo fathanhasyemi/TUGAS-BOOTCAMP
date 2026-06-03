@@ -3,16 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // Panggil DB Facade
+use App\Models\Product;
 
 class ProductController extends Controller
 {
+    // fungsi untuk halaman utama
     public function index()
     {
-        // 1. Ambil semua data dari tabel produk di database
-        $products = DB::table('produk')->get();
+        return view('home');
+    }
 
-        // 2. Kirim variabel $products ke file blade kamu
-        return view('home', compact('products')); 
+    //fungsi untuk halaman daftar produk
+    public function allProducts()
+    {
+        // mengambil semua produk beserta kategori-nya, lalu paginasi 6 produk per halaman
+        $semuaProduk = Product::with('category')->paginate(6);
+        
+        // mengirim data produk ke view 'products'
+        return view('products', ['products' => $semuaProduk]);
     }
 }

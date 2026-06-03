@@ -2,13 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PageController;
+use App\Http\Controllers\OrderController;
 
-// 1. Halaman Utama dipanggil lewat PageController
-Route::get('/', [PageController::class, 'index']);
+// hubungkan rute halaman utama dengan fungsi index di ProductController
+Route::get('/', [ProductController::class, 'index']);
 
-// 2. Halaman Keranjang dipanggil lewat PageController
-Route::get('/cart', [PageController::class, 'cart']);
+// hubungkan rute halaman daftar produk dengan fungsi allProducts di ProductController
+Route::get('/products', [ProductController::class, 'allProducts']);
 
-// 3. Halaman Daftar Produk dipanggil lewat ProductController
-Route::get('/products', [ProductController::class, 'index']);
+// hubungkan rute halaman keranjang dengan fungsi cart di OrderController
+Route::get('/cart', [OrderController::class, 'cart']);
+
+// hubungkan rute halaman checkout dengan fungsi checkout di OrderController
+Route::get('/checkout', [OrderController::class, 'checkout']);
+
