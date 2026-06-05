@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('price'); // Menambahkan kolom price
             $table->integer('stock');
             $table->string('image')->nullable();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Menambahkan foreign key category_id
             $table->timestamps();
         });
     }

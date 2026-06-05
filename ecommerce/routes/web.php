@@ -1,18 +1,32 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Route;
 
-// hubungkan rute halaman utama dengan fungsi index di ProductController
-Route::get('/', [ProductController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-// hubungkan rute halaman daftar produk dengan fungsi allProducts di ProductController
-Route::get('/products', [ProductController::class, 'allProducts']);
+// 1. RUTE HALAMAN UTAMA & PRODUK (Gabungan Toko Kamu)
+Route::get('/', [ProductController::class, 'allProducts'])->name('products.all');
+Route::get('/products', [ProductController::class, 'allProducts'])->name('products.all');
+Route::get('/cart', [OrderController::class, 'cart'])->name('cart');
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 
-// hubungkan rute halaman keranjang dengan fungsi cart di OrderController
-Route::get('/cart', [OrderController::class, 'cart']);
+// 2. RUTE DASHBOARD ADMIN (Bawaan Laravel Breeze)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// hubungkan rute halaman checkout dengan fungsi checkout di OrderController
-Route::get('/checkout', [OrderController::class, 'checkout']);
+// 3. RUTE MANAGEMEN PROFIL USER
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+require __DIR__.'/auth.php';

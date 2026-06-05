@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // 1. Tambahkan baris ini
 
 class Product extends Model
 {
+    use HasFactory; // 2. Tambahkan baris ini
+
     public function category()
     {
-        // belongsTo digunakan untuk relasi many to one, dimana banyak produk bisa memiliki satu kategori
+        // Hubungan relasi lama kamu tetap aman di sini
         return $this->belongsTo(Category::class, 'category_id');
     }
 }

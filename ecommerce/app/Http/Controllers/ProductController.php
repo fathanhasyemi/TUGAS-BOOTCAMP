@@ -13,13 +13,21 @@ class ProductController extends Controller
         return view('home');
     }
 
-    //fungsi untuk halaman daftar produk
-    public function allProducts()
+    // fungsi untuk halaman daftar produk (Sudah ditambahkan Request $request)
+    public function allProducts(Request $request)
     {
-        // mengambil semua produk beserta kategori-nya, lalu paginasi 6 produk per halaman
-        $semuaProduk = Product::with('category')->paginate(6);
+        // 1. Mulai kueri dasar produk beserta relasi kategorinya
+        $query = Product::with('category');
+
+        // 2. Cek apakah ada parameter 'category' di URL (Contoh: ?category=1)
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        // 3. Ambil datanya dan batasi 6 produk per halaman
+        $semuaProduk = $query->paginate(6);
         
-        // mengirim data produk ke view 'products'
+        // 4. Mengirim data produk ke view 'products'
         return view('products', ['products' => $semuaProduk]);
     }
 }
