@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -39,5 +40,34 @@ class ProductController extends Controller
         
         // 4. Mengirim data produk ke view katalog 'products.blade.php'
         return view('products', ['products' => $semuaProduk]);
+    }
+
+    // --- TAMBAHAN SESI 8 (Langkah 6) ---
+
+    /**
+     * Menampilkan halaman formulir tambah produk baru
+     */
+    public function create()
+    {
+        // Mengambil semua data kategori dari database untuk pilihan dropdown di form
+        $categories = Category::all();
+
+        // Mengarahkan ke file view: resources/views/product/create.blade.php
+        return view('product.create', compact('categories'));
+    }
+
+    /**
+     * Menampilkan halaman formulir edit produk lama berdasarkan ID
+     */
+    public function edit($id)
+    {
+        // 1. Cari data produk yang mau diedit, jika tidak ada langsung memunculkan error 404
+        $product = Product::findOrFail($id);
+
+        // 2. Ambil semua data kategori untuk pilihan dropdown di form edit
+        $categories = Category::all();
+
+        // Mengarahkan ke file view: resources/views/product/edit.blade.php
+        return view('product.edit', compact('product', 'categories'));
     }
 }

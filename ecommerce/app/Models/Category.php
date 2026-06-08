@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use HasFactory;
+
+    // 👇 TAMBAHKAN BARIS INI BIAR DATA BISA DIINPUT 👇
+    protected $fillable = ['name'];
+
+    /**
+     * Relasi ke model Product (Satu kategori punya banyak produk)
+     */
     public function products()
     {
-        // hasmany digunakan untuk relasi one to many, dimana satu kategori bisa memiliki banyak produk
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class);
     }
 }

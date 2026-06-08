@@ -1,0 +1,44 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Add New Category') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12" style="background-color: #F9FAFB;">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            
+            <div style="background-color: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 28px; border: 1px solid #F3F4F6;">
+                
+                <div style="margin-bottom: 20px;">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: #111827; margin: 0;">Buat Kategori Baru</h3>
+                    <p style="font-size: 0.85rem; color: #6B7280; margin-top: 4px;">Tambahkan nama kelompok baru untuk merapikan inventori barang tokomu.</p>
+                </div>
+
+                <form action="{{ route('categories.store') }}" method="POST">
+                    @csrf
+                    
+                    <div style="margin-bottom: 24px;">
+                        <label for="name" style="display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 8px;">Name</label>
+                        <input type="text" name="name" id="name" placeholder="E.g., Fashion, Electronics, Food" value="{{ old('name') }}" required
+                               style="width: 100%; border: 1px solid #D1D5DB; border-radius: 8px; padding: 10px 14px; color: #111827; font-size: 0.9rem; outline: none; transition: border-color 0.2s;">
+                        
+                        @error('name')
+                            <p style="color: #EF4444; font-size: 0.8rem; margin-top: 6px; font-weight: 500;">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #F3F4F6; padding-top: 20px;">
+                        <a href="{{ route('admin.categories.index') }}" style="background-color: #F3F4F6; color: #4B5563; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none; text-align: center; transition: 0.2s;">
+                            Cancel
+                        </a>
+                        <button type="submit" style="background-color: #10B981; color: white; padding: 10px 24px; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2); transition: 0.2s;">
+                            SAVE
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</x-app-layout>
