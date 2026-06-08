@@ -7,13 +7,23 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    // fungsi untuk halaman utama
+    /**
+     * FUNGSI ADMIN: Menampilkan tabel manajemen produk di Dashboard
+     * URL: /dashboard/products
+     */
     public function index()
     {
-        return view('home');
+        // Mengambil semua data produk beserta nama kategori pasangannya dari database
+        $products = Product::with('category')->get();
+
+        // Diarahkan ke file view frontend admin kita: views/product/admin_index.blade.php
+        return view('product.admin_index', compact('products'));
     }
 
-    // fungsi untuk halaman daftar produk (Sudah ditambahkan Request $request)
+    /**
+     * FUNGSI PUBLIK: Menampilkan halaman katalog toko untuk pembeli
+     * URL: / atau /products
+     */
     public function allProducts(Request $request)
     {
         // 1. Mulai kueri dasar produk beserta relasi kategorinya
@@ -24,10 +34,10 @@ class ProductController extends Controller
             $query->where('category_id', $request->category);
         }
 
-        // 3. Ambil datanya dan batasi 6 produk per halaman
-        $semuaProduk = $query->paginate(6);
+        // 3. Ambil datanya dan batasi 12 produk per halaman
+        $semuaProduk = $query->paginate(12);
         
-        // 4. Mengirim data produk ke view 'products'
+        // 4. Mengirim data produk ke view katalog 'products.blade.php'
         return view('products', ['products' => $semuaProduk]);
     }
 }

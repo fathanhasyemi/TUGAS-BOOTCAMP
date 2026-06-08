@@ -2,28 +2,27 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// 1. RUTE HALAMAN UTAMA & PRODUK (Gabungan Toko Kamu)
+// Rute Katalog Utama Toko (Tanpa Login)
 Route::get('/', [ProductController::class, 'allProducts'])->name('products.all');
-Route::get('/products', [ProductController::class, 'allProducts'])->name('products.all');
-Route::get('/cart', [OrderController::class, 'cart'])->name('cart');
-Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 
-// 2. RUTE DASHBOARD ADMIN (Bawaan Laravel Breeze)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// 3. RUTE MANAGEMEN PROFIL USER
+// Kelompok Rute Terproteksi (Wajib Login)
 Route::middleware('auth')->group(function () {
+    
+    // 1. Halaman utama Dashboard Admin
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // 2. Jalur data Produk Admin -> URL: /dashboard/products
+    Route::get('/dashboard/products', [ProductController::class, 'index'])->name('admin.products.index');
+
+    // 3. Jalur data Kategori Admin -> URL: /dashboard/product-categories
+    Route::get('/dashboard/product-categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+
+    // Rute bawaan Breeze Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

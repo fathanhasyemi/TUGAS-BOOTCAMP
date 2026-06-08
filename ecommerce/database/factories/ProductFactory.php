@@ -35,6 +35,9 @@ class ProductFactory extends Factory
 
             // nambah gambar-1 untuk produk
             'image' => 'gambar-1.jpg',
+
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
