@@ -120,17 +120,34 @@
                 <div class="navbar-nav mx-auto">
                     <a class="nav-link-modern {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
                     <a class="nav-link-modern {{ Request::is('products') || Request::is('products/*') ? 'active' : '' }}" href="{{ url('/products') }}">Products</a>
+                    @php
+                        $cartItems = session('cart', []);
+                        $cartCount = collect($cartItems)->sum('quantity');
+                    @endphp
                     <a class="nav-link-modern {{ Request::is('cart') ? 'active' : '' }}" href="{{ url('/cart') }}">
-                        Cart <span class="cart-badge">0</span>
+                        Cart <span class="cart-badge">{{ $cartCount }}</span>
                     </a>
                 </div>
 
                 <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
                     @if (Route::has('login'))
                         @auth
-                            <a href="{{ route('admin.dashboard') }}" class="btn-dark-modern text-decoration-none">
-                                <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
-                            </a>
+                            @if (Auth::user()->is_admin)
+                                <a href="{{ route('admin.dashboard') }}" class="btn-dark-modern text-decoration-none">
+                                    <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
+                                </a>
+                            @else
+                                <a href="{{ route('orders.index') }}" class="btn-light-modern text-decoration-none">
+                                    <i class="fa-solid fa-receipt me-1"></i> Orders
+                                </a>
+                            @endif
+
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn-light-modern text-decoration-none border-0">
+                                    <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                                </button>
+                            </form>
                         @else
                             <a href="{{ route('login') }}" class="btn-light-modern text-decoration-none">Login</a>
 

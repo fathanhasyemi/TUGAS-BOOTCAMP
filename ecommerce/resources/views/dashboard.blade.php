@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard Admin') }}
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
@@ -77,6 +77,10 @@
                     
                     <a href="{{ route('products.index') }}" class="action-link" style="background-color: #111827; color: white; border-color: #111827;">
                         <i class="fa-solid fa-sliders"></i> Kelola Tabel Produk
+                    </a>
+
+                    <a href="{{ route('admin.orders.index') }}" class="action-link">
+                        <i class="fa-solid fa-receipt"></i> Kelola Order
                     </a>
                     
                 </div>

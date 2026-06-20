@@ -24,7 +24,12 @@
                     <div class="cart-card">
                         <div class="cart-img-wrapper">
                             @if($details['image'])
-                                <img src="{{ asset('images/' . $details['image']) }}" alt="{{ $details['name'] }}">
+                                @php
+                                    $imagePath = (strpos($details['image'], 'uploads/') === 0)
+                                        ? $details['image']
+                                        : 'images/' . $details['image'];
+                                @endphp
+                                <img src="{{ asset($imagePath) }}" alt="{{ $details['name'] }}" loading="lazy">
                             @else
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #F3F4F6; color: #9CA3AF;">
                                     <i class="fa-regular fa-image"></i>

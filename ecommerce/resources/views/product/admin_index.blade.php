@@ -55,14 +55,18 @@
                             @forelse($products as $product)
                                 <tr style="border-bottom: 1px solid #F3F4F6;" class="table-row-hover">
                                     <td style="padding: 16px;">
-                                        @if($product->image)
-                                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 10px; border: 1px solid #E5E7EB;">
+                                    @if($product->image)
+                                        @if(Str::startsWith($product->image, 'uploads/'))
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" loading="lazy" decoding="async" style="width: 52px; height: 52px; object-fit: cover; border-radius: 10px; border: 1px solid #E5E7EB;">
                                         @else
-                                            <div style="width: 52px; height: 52px; background-color: #F3F4F6; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: #9CA3AF; font-weight: 700; border: 1px dashed #D1D5DB;">
-                                                <i class="fa-regular fa-image" style="font-size: 0.9rem; margin-bottom: 2px;"></i> KOSONG
-                                            </div>
+                                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" loading="lazy" decoding="async" style="width: 52px; height: 52px; object-fit: cover; border-radius: 10px; border: 1px solid #E5E7EB;">
                                         @endif
-                                    </td>
+                                    @else
+                                        <div style="width: 52px; height: 52px; background-color: #F3F4F6; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; color: #9CA3AF; font-weight: 700; border: 1px dashed #D1D5DB;">
+                                            <i class="fa-regular fa-image" style="font-size: 0.9rem; margin-bottom: 2px;"></i> KOSONG
+                                        </div>
+                                    @endif
+                                </td>
                                     
                                     <td style="padding: 16px; color: #111827; font-weight: 600;">
                                         {{ $product->name }}
@@ -114,6 +118,12 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if($products->hasPages())
+                    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                        {{ $products->links() }}
+                    </div>
+                @endif
 
             </div>
         </div>

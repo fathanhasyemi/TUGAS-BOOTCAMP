@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
 
 /*
@@ -25,18 +26,33 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::delete('/remove-from-cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
+// Checkout & Order + Profile umum (login saja)
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
+    // --- PROFILE BAWAAN BREEZE ---
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 /*
 |--------------------------------------------------------------------------
 | 2. RUTE ADMIN (Wajib Login & Menggunakan Layout Dashboard Breeze)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     
     // --- DASHBOARD UTAMA ---
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
+    Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update');
 
     // 💡 RUTE PENYELAMAT 1: Biar file layout lama gak eror nyariin 'admin.dashboard'
     Route::get('/admin/dashboard', function () {
@@ -52,7 +68,8 @@ Route::middleware('auth')->group(function () {
 
     // Operasi CRUD Produk
     Route::get('/dashboard/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/dashboard/products', [ProductController::class, 'store'])->name('products.store');
+    Route::post('/dashboard/products', [ProductController::class, 'store'])->name('product.store'); // Dipakai untuk Sesi 21
+    Route::post('/dashboard/products/store-alt', [ProductController::class, 'store'])->name('products.store'); // 💡 JALUR PENYELAMAT BIAR BLADE GA EROR
     Route::get('/dashboard/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/dashboard/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/dashboard/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
@@ -66,16 +83,16 @@ Route::middleware('auth')->group(function () {
 
     // Operasi CRUD Kategori
     Route::get('/dashboard/product-categories/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/dashboard/product-categories', [CategoryController::class, 'store'])->name('categories.store');
+    
+    // 💡 TRIPLE ATTACK RUTE PENYELAMAT UNTUK STORE KATEGORI (Menampung semua variasi nama rute dari Blade)
+    Route::post('/dashboard/product-categories', [CategoryController::class, 'store'])->name('product-category.store'); 
+    Route::post('/dashboard/product-categories/alt-1', [CategoryController::class, 'store'])->name('product-categories.store'); 
+    Route::post('/dashboard/product-categories/alt-2', [CategoryController::class, 'store'])->name('categories.store'); 
+    
     Route::get('/dashboard/product-categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/dashboard/product-categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/dashboard/product-categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-
-    // --- PROFILE BAWAAN BREEZE ---
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

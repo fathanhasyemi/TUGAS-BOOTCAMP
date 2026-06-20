@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -14,33 +14,41 @@ class CartController extends Controller
     }
 
     // Proses Tambah Produk ke Keranjang (Session)
-    public function addToCart($id)
+    public function addToCart(Request $request, $id)
     {
-        // Cari data produk di database berdasarkan ID
-        $product = DB::table('products')->where('id', $id)->first();
+        $product = Product::find($id);
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produk tidak ditemukan!');
         }
 
-        // Ambil data keranjang saat ini dari Session internet
+        $quantity = max(1, (int) $request->input('quantity', 1));
+
+        if ($product->stock < $quantity) {
+            return redirect()->back()->with('error', 'Stok produk tidak mencukupi.');
+        }
+
         $cart = session()->get('cart', []);
 
-        // Jika produk sudah ada di keranjang, tambahkan jumlah kuantitasnya saja (+1)
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $newQuantity = $cart[$id]['quantity'] + $quantity;
+
+            if ($newQuantity > $product->stock) {
+                return redirect()->back()->with('error', 'Jumlah yang dimasukkan melebihi stok yang tersedia.');
+            }
+
+            $cart[$id]['quantity'] = $newQuantity;
         } else {
-            // Jika belum ada, masukkan data produk baru ke dalam array keranjang
             $cart[$id] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                "image" => $product->image
+                'name' => $product->name,
+                'quantity' => $quantity,
+                'price' => $product->price,
+                'image' => $product->image,
             ];
         }
 
-        // Simpan data array terbaru ke dalam session
         session()->put('cart', $cart);
+
         return redirect()->route('cart.index')->with('success', 'Produk berhasil masuk keranjang!');
     }
 
@@ -48,10 +56,12 @@ class CartController extends Controller
     public function remove($id)
     {
         $cart = session()->get('cart', []);
+
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
         }
+
         return redirect()->back()->with('success', 'Produk berhasil dihapus!');
     }
 }

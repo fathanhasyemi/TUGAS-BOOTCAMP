@@ -74,7 +74,7 @@
                     </div>
 
                     <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #F3F4F6; padding-top: 20px;">
-                        <a href="{{ route('admin.products.index') }}" style="background-color: #F3F4F6; color: #4B5563; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none; text-align: center;">
+                        <a href="{{ route('products.index') }}" style="background-color: #F3F4F6; color: #4B5563; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none; text-align: center;">
                             Cancel
                         </a>
                         <button type="submit" style="background-color: #10B981; color: white; padding: 10px 24px; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">

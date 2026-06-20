@@ -30,14 +30,14 @@ class CategoryController extends Controller
     /**
      * Menampilkan halaman formulir edit kategori lama berdasarkan ID
      */
-    public function edit($id)
+    public function edit(string $id) // 💡 Ditambahkan tipe data string agar notice hilang
     {
         $category = Category::findOrFail($id);
         return view('categories.edit', compact('category'));
     }
 
     /**
-     * Memproses penyimpanan kategori baru ke database (Sesi 8 - Langkah 4)
+     * Memproses penyimpanan kategori baru ke database (Sesi 21 - Menghidupkan Form)
      */
     public function store(Request $request)
     {
@@ -54,14 +54,14 @@ class CategoryController extends Controller
             'name' => $request->name
         ]);
 
-        // 3. Redirect kembali ke halaman tabel dengan pesan sukses
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori baru berhasil ditambahkan!');
+        // 3. Redirect kembali ke halaman tabel dengan rute utama yang aman
+        return redirect()->route('categories.index')->with('success', 'Kategori baru berhasil ditambahkan!');
     }
 
     /**
-     * Memproses pembaruan data kategori lama di database (Sesi 8 - Langkah 4)
+     * Memproses pembaruan data kategori lama di database
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id) // 💡 Ditambahkan tipe data string agar notice hilang
     {
         // 1. Ambil data kategori lama berdasarkan ID
         $category = Category::findOrFail($id);
@@ -79,7 +79,27 @@ class CategoryController extends Controller
             'name' => $request->name
         ]);
 
-        // 4. Redirect kembali ke halaman tabel dengan pesan sukses
-        return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui!');
+        // 4. Redirect kembali ke halaman tabel dengan rute utama yang aman
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil diperbarui!');
+    }
+
+    /**
+     * 🛠️ FIX-EROR: Memproses penghapusan data kategori dari database
+     */
+    public function destroy(string $id)
+    {
+        // 1. Cari data kategori berdasarkan ID, kalau ga ada langsung lempar error 404
+        $category = Category::findOrFail($id);
+
+        // 2. Cek apakah ada produk yang masih nempel pakai kategori ini
+        if ($category->products()->count() > 0) {
+            return redirect()->route('categories.index')->with('error', 'Kategori gagal dihapus karena masih digunakan oleh produk aktif!');
+        }
+
+        // 3. Hapus kategori dari database jika aman
+        $category->delete();
+
+        // 4. Kembalikan ke halaman utama kategori dengan pesan sukses
+        return redirect()->route('categories.index')->with('success', 'Kategori sukses dihapus dari database!');
     }
 }
