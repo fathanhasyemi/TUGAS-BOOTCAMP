@@ -14,9 +14,14 @@
         </div>
 
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 48px; flex-wrap: wrap;">
-            <a href="{{ route('products.all') }}" class="filter-btn active">Semua</a>
-            <a href="{{ route('products.all', ['category' => 1]) }}" class="filter-btn">Fashion</a>
-            <a href="{{ route('products.all', ['category' => 2]) }}" class="filter-btn">Elektronik</a>
+            <a href="{{ route('products.all') }}" class="filter-btn {{ !request('category') ? 'active' : '' }}">Semua</a>
+            
+            @foreach($categories as $category)
+                <a href="{{ route('products.all', ['category' => $category->id]) }}" 
+                   class="filter-btn {{ request('category') == $category->id ? 'active' : '' }}">
+                    {{ $category->name }}
+                </a>
+            @endforeach
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; margin-bottom: 50px;">
@@ -31,6 +36,14 @@
                     @if($product->image && str_contains($product->image, 'uploads/'))
                         <a href="{{ route('products.show', $product->id) }}">
                             <img src="{{ asset($product->image) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="prod-img" 
+                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                            <div class="image-overlay"></div>
+                        </a>
+                    @elseif($product->image && (str_contains($product->image, 'gambar-') || file_exists(public_path('images/' . $product->image))))
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <img src="{{ asset('images/' . $product->image) }}" 
                                  alt="{{ $product->name }}" 
                                  class="prod-img" 
                                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
@@ -114,7 +127,7 @@
         background-color: #4F46E5; 
         color: white; 
         border-color: #4F46E5;
-        box-shadow: 0 4px 14 rgba(79, 70, 229, 0.3);
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
     }
 
     /* Kartu Produk Premium */

@@ -25,6 +25,16 @@
             </div>
 
             <div class="stat-card">
+                <div class="stat-icon-wrapper" style="background-color: #F5F3FF; color: #7C3AED;">
+                    <i class="fa-solid fa-mouse-pointer"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Jumlah Klik</div>
+                    <div class="stat-value">{{ $totalClicks }}</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
                 <div class="stat-icon-wrapper" style="background-color: #ECFDF5; color: #10B981;">
                     <i class="fa-solid fa-tags"></i>
                 </div>
@@ -62,11 +72,11 @@
 </div>
 
 <style>
-    /* Grid Layout Stat Cards */
+    /* Grid Layout Stat Cards (💡 DIUBAH MENJADI 4 KOLOM) */
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 24px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
     }
 
     /* Card Desain Modern */
@@ -74,32 +84,33 @@
         background-color: white;
         border: 1px solid #E5E7EB;
         border-radius: 20px;
-        padding: 28px;
+        padding: 24px;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 16px;
         box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01), 0 2px 4px -1px rgba(0,0,0,0.01);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .stat-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 20px -8px rgba(0,0, 0, 0.05);
+        box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.05);
     }
 
     /* Lingkaran Ikon */
     .stat-icon-wrapper {
-        width: 56px;
-        height: 56px;
+        width: 52px;
+        height: 52px;
         border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        font-size: 1.35rem;
+        flex-shrink: 0;
     }
 
     /* Teks Keterangan */
     .stat-label {
-        font-size: 0.875rem;
+        font-size: 0.8rem;
         font-weight: 600;
         color: #6B7280;
         margin-bottom: 4px;
@@ -107,7 +118,7 @@
         letter-spacing: 0.03em;
     }
     .stat-value {
-        font-size: 2rem;
+        font-size: 1.75rem;
         font-weight: 800;
         color: #111827;
         line-height: 1;
@@ -135,8 +146,13 @@
         transform: translateY(-1px);
     }
 
-    /* Responsif Ponsel */
-    @media (max-width: 768px) {
+    /* Responsif Ponsel & Tablet */
+    @media (max-width: 1024px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 640px) {
         .stats-grid {
             grid-template-columns: 1fr;
             gap: 16px;

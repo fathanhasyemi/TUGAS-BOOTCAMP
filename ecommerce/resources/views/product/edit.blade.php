@@ -63,8 +63,11 @@
                         <div style="display: flex; gap: 20px; align-items: center; border: 1px solid #E5E7EB; border-radius: 8px; padding: 16px; background-color: #F9FAFB;">
                             <div>
                                 <p style="font-size: 0.75rem; color: #6B7280; margin-bottom: 6px; font-weight: 600;">Current Image:</p>
-                                @if($product->image)
+                                
+                                @if($product->image && str_contains($product->image, 'uploads/'))
                                     <img src="{{ asset($product->image) }}" alt="Current" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #D1D5DB;">
+                                @elseif($product->image)
+                                    <img src="{{ asset('images/' . $product->image) }}" alt="Current" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #D1D5DB;">
                                 @else
                                     <div style="width: 80px; height: 80px; background-color: #E5E7EB; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6B7280;">No Pic</div>
                                 @endif

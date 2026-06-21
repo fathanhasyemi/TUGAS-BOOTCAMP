@@ -3,10 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\DashboardController; // 💡 SUDAH DI-IMPORT DI SINI
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,9 +48,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     
     // --- DASHBOARD UTAMA ---
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // 💡 SEKARANG ROUTE INI SUDAH MENGARAH KE DASHBOARD CONTROLLER
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/admin/orders', [OrderController::class, 'adminIndex'])->name('admin.orders.index');
     Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update');
@@ -68,8 +68,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Operasi CRUD Produk
     Route::get('/dashboard/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/dashboard/products', [ProductController::class, 'store'])->name('product.store'); // Dipakai untuk Sesi 21
-    Route::post('/dashboard/products/store-alt', [ProductController::class, 'store'])->name('products.store'); // 💡 JALUR PENYELAMAT BIAR BLADE GA EROR
+    Route::post('/dashboard/products', [ProductController::class, 'store'])->name('product.store'); 
+    Route::post('/dashboard/products/store-alt', [ProductController::class, 'store'])->name('products.store'); 
     Route::get('/dashboard/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/dashboard/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/dashboard/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');

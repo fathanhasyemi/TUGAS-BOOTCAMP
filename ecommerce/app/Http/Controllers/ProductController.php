@@ -42,19 +42,25 @@ class ProductController extends Controller
      */
     public function allProducts(Request $request)
     {
-        // 1. Mulai kueri dasar produk beserta relasi kategorinya
+        // 1. Ambil semua data kategori untuk tombol filter di katalog pembeli
+        $categories = Category::all();
+
+        // 2. Mulai kueri dasar produk beserta relasi kategorinya
         $query = Product::with('category');
 
-        // 2. Cek apakah ada parameter 'category' di URL (Contoh: ?category=1)
+        // 3. Cek apakah ada parameter 'category' di URL (Contoh: ?category=1)
         if ($request->has('category') && $request->category != '') {
             $query->where('category_id', $request->category);
         }
 
-        // 3. Ambil datanya dan batasi 12 produk per halaman
+        // 4. Ambil datanya dan batasi 12 produk per halaman
         $semuaProduk = $query->paginate(12);
         
-        // 4. Mengirim data produk ke view katalog 'products.blade.php'
-        return view('products', ['products' => $semuaProduk]);
+        // 5. Mengirim data produk DAN kategori ke view katalog 'products.blade.php'
+        return view('products', [
+            'products' => $semuaProduk,
+            'categories' => $categories
+        ]);
     }
 
     // --- TAMBAHAN SESI 8 & 21 ---

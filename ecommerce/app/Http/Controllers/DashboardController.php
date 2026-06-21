@@ -11,12 +11,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Menghitung jumlah total data langsung dari database
+        // 1. Hitung data lama yang sudah ada sebelumnya
         $totalProducts = Product::count();
         $totalCategories = Category::count();
         $totalUsers = User::count();
 
-        // Mengirim data hitungan ke view dashboard admin
-        return view('admin.dashboard', compact('totalProducts', 'totalCategories', 'totalUsers'));
+        // 2. 💡 TAMBAHAN TUGAS BARU: Menghitung total klik (views) dari seluruh produk
+        $totalClicks = Product::sum('views');
+
+        // 3. Kirim semua data (Lama + Baru) ke view dashboard admin
+        return view('admin.dashboard', compact('totalProducts', 'totalCategories', 'totalUsers', 'totalClicks'));
     }
 }
