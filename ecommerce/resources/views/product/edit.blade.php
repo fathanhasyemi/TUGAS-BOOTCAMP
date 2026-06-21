@@ -64,7 +64,7 @@
                             <div>
                                 <p style="font-size: 0.75rem; color: #6B7280; margin-bottom: 6px; font-weight: 600;">Current Image:</p>
                                 @if($product->image)
-                                    <img src="{{ asset('images/' . $product->image) }}" alt="Current" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #D1D5DB;">
+                                    <img src="{{ asset($product->image) }}" alt="Current" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #D1D5DB;">
                                 @else
                                     <div style="width: 80px; height: 80px; background-color: #E5E7EB; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #6B7280;">No Pic</div>
                                 @endif
@@ -78,7 +78,7 @@
                     </div>
 
                     <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #F3F4F6; padding-top: 20px;">
-                        <a href="{{ route('admin.products.index') }}" style="background-color: #F3F4F6; color: #4B5563; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none;">
+                        <a href="{{ route('products.index') }}" style="background-color: #F3F4F6; color: #4B5563; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none;">
                             Cancel
                         </a>
                         <button type="submit" style="background-color: #F59E0B; color: white; padding: 10px 24px; border: none; border-radius: 8px; font-weight: 600; font-size: 0.875rem; cursor: pointer; box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);">

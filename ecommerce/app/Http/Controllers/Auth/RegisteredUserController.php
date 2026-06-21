@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // 💡 JALUR PENYELAMAT: Lempar user biasa ke katalog utama (route 'home') biar ga kena 403 di dashboard!
+        return redirect()->route('home');
     }
 }

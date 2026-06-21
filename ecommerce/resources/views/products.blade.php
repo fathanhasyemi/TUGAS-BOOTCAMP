@@ -28,17 +28,21 @@
                         <span class="stock-badge">🔥 Stok Menipis</span>
                     @endif
                     
-                    @if($product->image)
+                    @if($product->image && str_contains($product->image, 'uploads/'))
                         <a href="{{ route('products.show', $product->id) }}">
-                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="prod-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                            <img src="{{ asset($product->image) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="prod-img" 
+                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
                             <div class="image-overlay"></div>
                         </a>
                     @else
-                        <a href="{{ route('products.show', $product->id) }}" style="display: block; width: 100%; height: 100%;">
-                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #9CA3AF; gap: 10px; background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);">
-                                <i class="fa-regular fa-image" style="font-size: 2rem; opacity: 0.7;"></i>
-                                <span style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">No Image Available</span>
-                            </div>
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <img src="https://placehold.co/600x600/f3f4f6/4f46e5?text={{ urlencode($product->name) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="prod-img" 
+                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                            <div class="image-overlay"></div>
                         </a>
                     @endif
                 </div>
@@ -161,7 +165,7 @@
         box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
     }
 
-    /* UPDATE: Style Tombol Detail Produk Premium */
+    /* Style Tombol Detail Produk Premium */
     .btn-detail-prod {
         flex: 1;
         display: flex;
