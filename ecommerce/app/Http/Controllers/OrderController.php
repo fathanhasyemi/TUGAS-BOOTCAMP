@@ -2,28 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+    private function getCartItemsForUser()
+    {
+        if (!Auth::check()) {
+            return collect();
+        }
+
+        return Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+    }
+
+    private function generateUniqueOrderNumber(): string
+    {
+        return 'ORD-' . now()->format('YmdHis') . '-' . Str::upper(Str::substr(Str::uuid()->toString(), 0, 8));
+    }
+
     public function checkout()
     {
-        $cart = session('cart', []);
+        $cartItems = $this->getCartItemsForUser();
 
-        if (empty($cart)) {
+        if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Keranjang masih kosong.');
         }
 
+        $cart = [];
         $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
+
+        foreach ($cartItems as $item) {
+            if (!$item->product) {
+                continue;
+            }
+
+            $cart[] = [
+                'id' => $item->product->id,
+                'name' => $item->product->name,
+                'price' => $item->product->price,
+                'quantity' => $item->quantity,
+            ];
+
+            $total += $item->product->price * $item->quantity;
         }
 
-        return view('checkout', compact('cart', 'total'));
+        return view('checkout', compact('cart', 'total', 'cartItems'));
     }
 
     public function index()
@@ -59,6 +90,16 @@ class OrderController extends Controller
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled'
         ]);
 
+        $previousStatus = $order->status;
+
+        if ($request->status === 'cancelled' && $previousStatus !== 'cancelled') {
+            $product = $order->product;
+
+            if ($product) {
+                $product->increment('stock', $order->quantity);
+            }
+        }
+
         $order->update([
             'status' => $request->status,
         ]);
@@ -75,44 +116,30 @@ class OrderController extends Controller
             'phone' => ['required', 'string', 'max:20'],
         ]);
 
-        $cart = session('cart', []);
+        $cartItems = $this->getCartItemsForUser();
 
-        if (empty($cart)) {
+        if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Keranjang masih kosong.');
         }
 
         DB::beginTransaction();
 
         try {
-            $total = 0;
-
-            foreach ($cart as $productId => $item) {
-                $product = Product::find($productId);
+            foreach ($cartItems as $item) {
+                $product = $item->product;
 
                 if (!$product) {
                     throw new \Exception('Produk tidak ditemukan.');
                 }
 
-                if ($item['quantity'] > $product->stock) {
+                if ($item->quantity > $product->stock) {
                     throw new \Exception('Stok produk ' . $product->name . ' tidak mencukupi.');
                 }
 
-                $total += $item['price'] * $item['quantity'];
-            }
-
-            $orderNumber = 'ORD-' . now()->format('YmdHis') . '-' . rand(1000, 9999);
-
-            foreach ($cart as $productId => $item) {
-                $product = Product::find($productId);
-
-                if (!$product) {
-                    throw new \Exception('Produk tidak ditemukan.');
-                }
-
-                $product->decrement('stock', $item['quantity']);
+                $product->decrement('stock', $item->quantity);
 
                 Order::create([
-                    'order_number' => $orderNumber,
+                    'order_number' => $this->generateUniqueOrderNumber(),
                     'status' => 'pending',
                     'name' => $request->name,
                     'email' => $request->email,
@@ -120,13 +147,13 @@ class OrderController extends Controller
                     'phone' => $request->phone,
                     'user_id' => Auth::id(),
                     'product_id' => $product->id,
-                    'quantity' => $item['quantity'],
-                    'total' => $item['price'] * $item['quantity'],
+                    'quantity' => $item->quantity,
+                    'total' => $product->price * $item->quantity,
                 ]);
             }
 
             DB::commit();
-            session()->forget('cart');
+            Cart::where('user_id', Auth::id())->delete();
 
             return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat.');
         } catch (\Exception $e) {

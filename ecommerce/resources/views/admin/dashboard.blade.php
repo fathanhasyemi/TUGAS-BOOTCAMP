@@ -8,12 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <div class="py-12" style="background-color: #F9FAFB; min-height: 100vh; font-family: 'Inter', sans-serif;">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 sm:py-12 px-3 sm:px-0" style="background-color: #F9FAFB; min-height: 100vh; font-family: 'Inter', sans-serif;">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             
-            <div style="margin-bottom: 32px;">
-                <h1 style="font-size: 2.25rem; font-weight: 800; color: #111827; letter-spacing: -0.03em; margin: 0 0 8px 0;">Dashboard Admin</h1>
-                <p style="font-size: 0.95rem; color: #6B7280; margin: 0;">Selamat datang kembali! Berikut adalah ringkasan performa dan data statistik Toko Kita hari ini.</p>
+            <div style="margin-bottom: 24px;">
+                <h1 style="font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; color: #111827; letter-spacing: -0.03em; margin: 0 0 8px 0;">Dashboard Admin</h1>
+                <p style="font-size: 0.92rem; color: #6B7280; margin: 0; line-height: 1.6;">Selamat datang kembali! Berikut adalah ringkasan performa dan data statistik Toko Kita hari ini.</p>
             </div>
 
             <div class="stats-grid">
@@ -60,9 +60,9 @@
 
             </div>
 
-            <div style="margin-top: 48px; background-color: white; border-radius: 20px; border: 1px solid #E5E7EB; padding: 32px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
-                <h3 style="font-size: 1.25rem; font-weight: 700; color: #111827; margin: 0 0 20px 0;">Akses Cepat Manajemen</h3>
-                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div class="quick-panel" style="margin-top: 36px; background-color: white; border-radius: 20px; border: 1px solid #E5E7EB; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: #111827; margin: 0 0 16px 0;">Akses Cepat Manajemen</h3>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                     <a href="{{ route('products.all') }}" class="action-link">
                         <i class="fa-solid fa-store"></i> Lihat Katalog Toko
                     </a>
@@ -145,10 +145,33 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        @media (max-width: 768px) {
+            .stat-card {
+                padding: 18px;
+            }
+            .quick-panel {
+                padding: 20px;
+            }
+            .action-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
         @media (max-width: 640px) {
             .stats-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 14px;
+            }
+            .stat-card {
+                align-items: flex-start;
+            }
+            .stat-icon-wrapper {
+                width: 46px;
+                height: 46px;
+                font-size: 1.15rem;
+            }
+            .stat-value {
+                font-size: 1.45rem;
             }
         }
     </style>

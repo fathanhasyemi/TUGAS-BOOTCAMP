@@ -1,9 +1,9 @@
 @extends('components.app')
 
 @section('content')
-<div style="background-color: #F9FAFB; padding: 40px 0; min-height: 100vh;">
-    <div class="container max-w-6xl mx-auto px-4">
-        <h1 style="font-size: 2rem; font-weight: 800; color: #111827; margin-bottom: 24px;">Riwayat Pesanan</h1>
+<div style="background-color: #F9FAFB; padding: 18px 8px 32px; min-height: 100vh;">
+    <div class="container max-w-6xl mx-auto px-2 px-sm-4">
+        <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: #111827; margin-bottom: 20px;">Riwayat Pesanan</h1>
 
         @if(session('success'))
             <div style="background-color: #D1FAE5; color: #065F46; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px;">
@@ -12,13 +12,13 @@
         @endif
 
         @if($orders->isEmpty())
-            <div style="background: white; border-radius: 18px; padding: 40px; text-align: center; border: 1px solid #E5E7EB;">
+            <div style="background: white; border-radius: 18px; padding: 24px; text-align: center; border: 1px solid #E5E7EB;">
                 <p style="margin: 0; color: #6B7280;">Belum ada pesanan yang dibuat.</p>
             </div>
         @else
             <div style="display: flex; flex-direction: column; gap: 16px;">
                 @foreach($orders as $order)
-                    <div style="background: white; border-radius: 18px; border: 1px solid #E5E7EB; padding: 18px;">
+                    <div style="background: white; border-radius: 18px; border: 1px solid #E5E7EB; padding: 16px;">
                         <div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
                             <div>
                                 <h5 style="font-weight: 700; margin-bottom: 4px;">{{ $order->order_number }}</h5>
@@ -28,9 +28,14 @@
                                 {{ ucfirst($order->status) }}
                             </span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 14px; color: #4B5563; font-size: 0.9rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; color: #4B5563; font-size: 0.9rem; gap: 12px; flex-wrap: wrap;">
                             <span>{{ $order->quantity }} item</span>
-                            <span>Rp{{ number_format($order->total, 0, ',', '.') }}</span>
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <span>Rp{{ number_format($order->total, 0, ',', '.') }}</span>
+                                <a href="https://wa.me/085752151528?text=Halo%2C%20saya%20ingin%20mengonfirmasi%20pesanan%20{{ urlencode($order->order_number) }}" target="_blank" rel="noopener noreferrer" style="background-color: #25D366; color: white; padding: 8px 12px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                                    <i class="fa-brands fa-whatsapp"></i> Konfirmasi WA
+                                </a>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -38,4 +43,13 @@
         @endif
     </div>
 </div>
+
+<style>
+    @media (max-width: 576px) {
+        .order-card-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
 @endsection

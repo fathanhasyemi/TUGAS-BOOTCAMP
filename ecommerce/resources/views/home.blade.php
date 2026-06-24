@@ -4,10 +4,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div style="background-color: #F9FAFB; padding: 40px 20px; font-family: 'Inter', sans-serif;">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div style="background-color: #F9FAFB; padding: 24px 10px 40px; font-family: 'Inter', sans-serif;">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         
-        <div style="background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); border-radius: 24px; padding: 80px 32px; text-align: center; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08); border: 1px solid rgba(255, 255, 255, 0.6); position: relative; overflow: hidden; margin-bottom: 60px;">
+        <div style="background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); border-radius: 24px; padding: 48px 20px; text-align: center; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.08); border: 1px solid rgba(255, 255, 255, 0.6); position: relative; overflow: hidden; margin-bottom: 40px;">
             
             <div style="position: absolute; top: -20%; left: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(255,255,255,0) 70%); pointer-events: none;"></div>
             <div style="position: absolute; bottom: -20%; right: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, rgba(255,255,255,0) 70%); pointer-events: none;"></div>
@@ -16,15 +16,15 @@
                 🚚 Promo Gratis Ongkir Se-Indonesia
             </div>
 
-            <h1 style="font-size: 3.5rem; font-weight: 800; color: #111827; letter-spacing: -0.03em; line-height: 1.15; max-width: 800px; margin: 0 auto;">
+            <h1 style="font-size: clamp(1.8rem, 4vw, 3.2rem); font-weight: 800; color: #111827; letter-spacing: -0.03em; line-height: 1.15; max-width: 800px; margin: 0 auto;">
                 Selamat Datang di <span style="background: linear-gradient(to right, #4F46E5, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Toko Kita</span>
             </h1>
 
-            <p style="font-size: 1.125rem; color: #4B5563; line-height: 1.75; margin-top: 20px; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; font-weight: 400;">
+            <p style="font-size: 0.98rem; color: #4B5563; line-height: 1.75; margin-top: 16px; margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto; font-weight: 400;">
                 Temukan koleksi produk terbaik pilihan kami dengan jaminan kualitas nomor satu dan penawaran harga yang paling bersahabat.
             </p>
 
-            <div style="display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <a href="{{ url('products') }}" class="btn-primary-hero">
                     Mulai Belanja <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
                 </a>
@@ -35,7 +35,7 @@
         </div>
 
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 80px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 48px;">
             
             <div class="feature-card">
                 <div class="icon-box" style="background-color: #EEF2FF; color: #4F46E5;">
@@ -65,12 +65,12 @@
 
 
         <div id="kategori" style="margin-bottom: 40px;">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 2rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin-bottom: 8px;">Jelajahi Kategori</h2>
-                <p style="font-size: 0.95rem; color: #6B7280;">Cari kebutuhan spesifikmu melalui kategori produk pilihan kami.</p>
+            <div style="text-align: center; margin-bottom: 24px;">
+                <h2 style="font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 800; color: #111827; letter-spacing: -0.02em; margin-bottom: 8px;">Jelajahi Kategori</h2>
+                <p style="font-size: 0.92rem; color: #6B7280;">Cari kebutuhan spesifikmu melalui kategori produk pilihan kami.</p>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
                 
                 <a href="{{ url('products') }}" class="category-card">
                     <div class="cat-icon-wrapper" style="background-color: #EFF6FF; color: #3B82F6;">
@@ -194,6 +194,32 @@
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
+    }
+    @media (max-width: 768px) {
+        .feature-card,
+        .category-card {
+            padding: 20px;
+        }
+
+        .btn-primary-hero,
+        .btn-secondary-hero {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .feature-card,
+        .category-card {
+            padding: 18px;
+        }
+
+        .icon-box,
+        .cat-icon-wrapper {
+            width: 46px;
+            height: 46px;
+            font-size: 1.1rem;
+        }
     }
 </style>
 @endsection

@@ -4,16 +4,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div style="background-color: #F9FAFB; padding: 40px 20px; font-family: 'Inter', sans-serif; min-height: 100vh;">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div style="background-color: #F9FAFB; padding: 24px 12px 40px; font-family: 'Inter', sans-serif; min-height: 100vh;">
+    <div class="max-w-7xl mx-auto px-1 px-sm-3">
         
-        <div style="text-align: center; margin-bottom: 48px;">
-            <span style="background-color: #EEF2FF; color: #4F46E5; padding: 6px 18px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);">Our Collection</span>
-            <h1 style="font-size: 2.75rem; font-weight: 800; color: #111827; letter-spacing: -0.03em; margin-top: 16px; margin-bottom: 12px;">Daftar Produk Kami</h1>
-            <p style="font-size: 1.05rem; color: #6B7280; max-width: 520px; margin: 0 auto; line-height: 1.6;">Pilih dan bawa pulang produk favoritmu hari ini dengan penawaran terbaik dan kualitas nomor satu.</p>
+        <div style="text-align: center; margin-bottom: 32px;">
+            <span style="background-color: #EEF2FF; color: #4F46E5; padding: 6px 14px; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.05);">Our Collection</span>
+            <h1 style="font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; color: #111827; letter-spacing: -0.03em; margin-top: 12px; margin-bottom: 10px;">Daftar Produk Kami</h1>
+            <p style="font-size: 0.95rem; color: #6B7280; max-width: 520px; margin: 0 auto; line-height: 1.6;">Pilih dan bawa pulang produk favoritmu hari ini dengan penawaran terbaik dan kualitas nomor satu.</p>
         </div>
 
-        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 48px; flex-wrap: wrap;">
+        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;">
             <a href="{{ route('products.all') }}" class="filter-btn {{ !request('category') ? 'active' : '' }}">Semua</a>
             
             @foreach($categories as $category)
@@ -24,7 +24,7 @@
             @endforeach
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; margin-bottom: 50px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 36px;">
             @foreach($products as $product)
             <div class="product-card">
                 
@@ -62,7 +62,7 @@
                 </div>
 
                 <div style="padding: 24px; display: flex; flex-direction: column; flex-grow: 1; background: white;">
-                    <h3 style="font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 12px; line-height: 1.4; min-height: 44px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s ease;" class="product-title">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 12px; line-height: 1.4; min-height: 44px; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s ease;" class="product-title">
                         {{-- 💡 LINK JUDUL SEKARANG MENGGUNAKAN $product->slug --}}
                         <a href="{{ route('products.show', $product->slug) }}" style="text-decoration: none; color: inherit; display: block;">
                             {{ $product->name }}
@@ -78,11 +78,11 @@
                         </span>
                     </div>
 
-                    <p style="font-size: 0.875rem; color: #6B7280; line-height: 1.6; margin-bottom: 24px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                    <p style="font-size: 0.875rem; color: #6B7280; line-height: 1.6; margin-bottom: 24px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;">
                         {{ $product->description ?? 'Pemilihan bahan terbaik untuk memastikan kenyamanan dan kepuasan maksimal Anda sepanjang hari.' }}
                     </p>
 
-                    <div style="display: flex; gap: 10px; width: 100%; margin-top: auto;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: auto;">
                         {{-- 💡 LINK TOMBOL DETAIL SEKARANG MENGGUNAKAN $product->slug --}}
                         <a href="{{ route('products.show', $product->slug) }}" class="btn-detail-prod">
                             <i class="fa-solid fa-eye"></i> Detail
@@ -113,7 +113,7 @@
     .filter-btn {
         background-color: white; 
         color: #4B5563; 
-        padding: 10px 26px; 
+        padding: 9px 18px; 
         border-radius: 9999px; 
         font-weight: 600; 
         font-size: 0.875rem; 
@@ -243,9 +243,33 @@
         border-radius: 12px !important;
         color: #4B5563;
         border: 1px solid #E5E7EB;
-        padding: 12px 18px;
+        padding: 10px 14px;
         font-weight: 600;
         transition: all 0.2s ease;
+    }
+
+    @media (max-width: 768px) {
+        .product-card {
+            border-radius: 18px;
+        }
+
+        .btn-detail-prod,
+        .btn-add-cart {
+            padding: 12px;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .filter-btn {
+            width: calc(50% - 6px);
+            justify-content: center;
+            text-align: center;
+        }
+
+        .product-card {
+            min-width: 0;
+        }
     }
     .pagination-wrapper .page-item .page-link:hover {
         background-color: #F3F4F6;

@@ -104,6 +104,51 @@
             font-size: 0.875rem;
             padding: 24px 0 !important;
         }
+
+        @media (max-width: 991px) {
+            .custom-navbar {
+                padding: 0.75rem 0;
+            }
+
+            .navbar-collapse {
+                padding-top: 0.75rem;
+            }
+
+            .navbar-nav {
+                gap: 0.25rem;
+            }
+
+            .nav-link-modern {
+                padding: 0.6rem 0.75rem !important;
+            }
+
+            .btn-dark-modern,
+            .btn-light-modern {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                font-size: 0.95rem;
+            }
+
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .navbar-brand-modern {
+                font-size: 1.1rem;
+            }
+
+            .footer-modern {
+                padding: 20px 1rem !important;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">

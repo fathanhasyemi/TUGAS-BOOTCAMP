@@ -4,12 +4,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div style="background-color: #F9FAFB; padding: 40px 0; font-family: 'Inter', sans-serif; min-height: 100vh;">
-    <div class="container max-w-7xl mx-auto px-4">
+<div style="background-color: #F9FAFB; padding: 18px 8px 32px; font-family: 'Inter', sans-serif; min-height: 100vh;">
+    <div class="container max-w-7xl mx-auto px-2 px-sm-4">
         
-        <div style="margin-bottom: 32px;">
-            <h1 style="font-size: 2rem; font-weight: 800; color: #111827; letter-spacing: -0.025em;">Keranjang Belanja</h1>
-            <p style="color: #6B7280; font-size: 0.95rem; margin-top: 4px;">Periksa kembali barang bawaanmu sebelum melakukan pembayaran.</p>
+        <div style="margin-bottom: 24px;">
+            <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: #111827; letter-spacing: -0.025em;">Keranjang Belanja</h1>
+            <p style="color: #6B7280; font-size: 0.92rem; margin-top: 4px; line-height: 1.5;">Periksa kembali barang bawaanmu sebelum melakukan pembayaran.</p>
         </div>
 
         @if(session('success'))
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="cart-details-wrapper">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
                                 <div>
                                     <h3 class="product-title-cart">{{ $product->name ?? 'Produk Tidak Diketahui' }}</h3>
                                     <p style="font-size: 1.1rem; font-weight: 700; color: #4F46E5; margin-top: 4px; margin-bottom: 0;">
@@ -74,7 +74,7 @@
                                 </form>
                             </div>
 
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid #F3F4F6; width: 100%;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid #F3F4F6; width: 100%; gap: 12px; flex-wrap: wrap;">
                                 <span style="font-size: 0.85rem; color: #6B7280; font-weight: 500;">Kuantitas Belanja</span>
                                 
                                 <div style="display: flex; align-items: center; background-color: #F3F4F6; border-radius: 8px; padding: 2px; gap: 4px;">
@@ -137,12 +137,12 @@
             </div>
         </div>
         @else
-        <div style="background-color: white; border-radius: 20px; border: 1px solid #E5E7EB; padding: 60px 20px; text-align: center; max-width: 500px; margin: 40px auto;">
+        <div style="background-color: white; border-radius: 20px; border: 1px solid #E5E7EB; padding: 40px 16px; text-align: center; max-width: 500px; margin: 24px auto;">
             <div style="width: 72px; height: 72px; background-color: #EEF2FF; color: #4F46E5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 20px;">
                 <i class="fa-solid fa-bag-shopping"></i>
             </div>
             <h3 style="font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 8px;">Keranjangmu Masih Kosong</h3>
-            <p style="color: #6B7280; font-size: 0.9Academicrem; line-height: 1.5; margin-bottom: 24px;">Kamu belum menambahkan produk apapun ke dalam keranjang belanjaanmu.</p>
+            <p style="color: #6B7280; font-size: 0.9rem; line-height: 1.5; margin-bottom: 24px;">Kamu belum menambahkan produk apapun ke dalam keranjang belanjaanmu.</p>
             <a href="{{ url('/products') }}" class="btn-checkout-cart" style="background-color: #4F46E5;">Lihat Katalog Produk</a>
         </div>
         @endif
@@ -156,9 +156,9 @@
         background-color: white;
         border-radius: 20px;
         border: 1px solid #E5E7EB;
-        padding: 20px;
+        padding: 16px;
         display: flex;
-        gap: 20px;
+        gap: 16px;
         transition: all 0.25s ease;
     }
     .cart-card:hover {
@@ -209,9 +209,42 @@
         background-color: white;
         border-radius: 20px;
         border: 1px solid #E5E7EB;
-        padding: 28px;
+        padding: 24px;
         position: sticky;
         top: 100px;
+    }
+
+    @media (max-width: 768px) {
+        .cart-card {
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .cart-img-wrapper {
+            width: 100%;
+            height: 180px;
+        }
+
+        .summary-card {
+            position: static;
+            margin-top: 8px;
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .cart-details-wrapper {
+            width: 100%;
+        }
+
+        .product-title-cart {
+            font-size: 1rem;
+        }
+
+        .btn-checkout-cart {
+            padding: 13px;
+            font-size: 0.9rem;
+        }
     }
     .btn-checkout-cart {
         display: flex;

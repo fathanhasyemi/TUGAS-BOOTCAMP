@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div style="background-color: #F9FAFB; padding: 60px 20px; font-family: 'Inter', sans-serif; min-height: 100vh;">
+<div style="background-color: #F9FAFB; padding: 24px 12px 40px; font-family: 'Inter', sans-serif; min-height: 100vh;">
     <div style="max-width: 1200px; margin: 0 auto;">
         
         <div style="margin-bottom: 32px;">
@@ -71,12 +71,12 @@
     .detail-grid-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 48px;
+        gap: 32px;
         background-color: white;
         border-radius: 24px;
         border: 1px solid #E5E7EB;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-        padding: 40px;
+        padding: 24px;
     }
 
     /* Container Foto */
@@ -115,7 +115,7 @@
 
     /* Tipografi */
     .product-detail-title {
-        font-size: 2.5rem;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
         font-weight: 800;
         color: #111827;
         line-height: 1.2;
@@ -123,7 +123,7 @@
         letter-spacing: -0.03em;
     }
     .product-detail-price {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 800;
         color: #4F46E5;
         letter-spacing: -0.02em;
@@ -161,14 +161,25 @@
     @media (max-width: 768px) {
         .detail-grid-container {
             grid-template-columns: 1fr;
-            gap: 32px;
-            padding: 24px;
+            gap: 24px;
+            padding: 18px;
         }
         .detail-img-container {
-            height: 350px;
+            height: 320px;
         }
-        .product-detail-title {
-            font-size: 2rem;
+        .btn-add-to-cart-premium {
+            padding: 14px;
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .detail-img-container {
+            height: 260px;
+        }
+
+        .product-detail-desc {
+            font-size: 0.9rem;
         }
     }
 </style>
