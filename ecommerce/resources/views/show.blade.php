@@ -16,7 +16,13 @@
         <div class="detail-grid-container">
             
             <div class="detail-img-container">
-                @if($product->image)
+                {{-- 🛠️ FIX-GAMBAR: Menyesuaikan logika pengecekan path gambar sesuai katalog utama --}}
+                @if($product->image && str_contains($product->image, 'uploads/'))
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="detail-product-img">
+                @elseif($product->image && (str_contains($product->image, 'gambar-') || file_exists(public_path('images/' . $product->image))))
+                    <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="detail-product-img">
+                @elseif($product->image)
+                    {{-- Cadangan jika nama file langsung tersimpan tanpa prefix gambar- --}}
                     <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="detail-product-img">
                 @else
                     <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #F3F4F6; color: #9CA3AF; gap: 12px;">

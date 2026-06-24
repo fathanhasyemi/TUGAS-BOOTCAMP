@@ -20,7 +20,8 @@ class ProductController extends Controller
 
         // 2. Ambil data produk secara ringan dan paginasi agar halaman tidak memuat semua data sekaligus
         $products = Product::query()
-            ->select('id', 'name', 'description', 'price', 'stock', 'image', 'category_id', 'created_at')
+            // 💡 SEKARANG KITA AMBIL JUGA KOLOM 'slug' AGAR TIDAK EROR SAAT DI-LINK
+            ->select('id', 'name', 'slug', 'description', 'price', 'stock', 'image', 'category_id', 'created_at')
             ->with(['category' => function ($query) {
                 $query->select('id', 'name');
             }])
@@ -116,6 +117,7 @@ class ProductController extends Controller
         }
 
         // 3. Simpan data ke tabel 'products' lewat Model Product
+        // Catatan: Kolom 'slug' akan otomatis terisi berkat fungsi boot() di model Product.php
         Product::create([
             'name'        => $request->name,
             'price'       => $request->price,
@@ -194,6 +196,7 @@ class ProductController extends Controller
         }
 
         // 5. Eksekusi update data produk ke database
+        // Catatan: Kolom 'slug' otomatis diperbarui oleh model Product jika nama produk ikut diganti
         $product->update([
             'name'        => $request->name,
             'price'       => $request->price,
@@ -209,22 +212,22 @@ class ProductController extends Controller
 
     /**
      * FUNGSI PUBLIK: Menampilkan halaman detail produk
-     * URL: /products/{id}
+     * URL SEKARANG: /products/{slug}
      */
-    public function show(string $id) // 💡 Ditambahkan tipe data string agar info notice hilang
+    public function show(string $slug) // 💡 Menggunakan parameter $slug, bukan $id lagi
     {
-        // Ambil data produk berdasarkan ID menggunakan Eloquent Model (mencari ke tabel 'products')
-        $product = Product::find($id);
+        // 💡 SEKARANG KITA CARI PRODUK BERDASARKAN SLUG DI DATABASE
+        $product = Product::where('slug', $slug)->first();
 
-        // Jika produk tidak ditemukan di database, kembalikan ke halaman katalog dengan pesan error
+        // Jika produk tidak ditemukan berdasarkan slug tersebut, arahkan balik dengan pesan error
         if (!$product) {
             return redirect('/products')->with('error', 'Produk tidak ditemukan!');
         }
 
-        // 💡 FITUR BARU: Tambah jumlah klik/views sebanyak 1 setiap kali halaman detail dibuka
+        // FITUR: Tambah jumlah klik/views sebanyak 1 setiap kali halaman detail dibuka
         $product->increment('views');
 
-        // Jika ada, kirim data produk tersebut ke view 'show.blade.php'
+        // Kirim data produk tersebut ke view 'show.blade.php'
         return view('show', compact('product'));
     }
 

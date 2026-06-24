@@ -48,4 +48,13 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
         ];
     }
+
+    /**
+     * Relasi ke Keranjang Belanja (Cart)
+     * Satu user bisa memasukkan banyak produk ke dalam keranjang mereka
+     */
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

@@ -12,24 +12,42 @@
             <p style="color: #6B7280; font-size: 0.95rem; margin-top: 4px;">Periksa kembali barang bawaanmu sebelum melakukan pembayaran.</p>
         </div>
 
-        @if(session('cart') && count(session('cart')) > 0)
+        @if(session('success'))
+            <div style="background-color: #D1FAE5; border-left: 4px solid #10B981; color: #065F46; padding: 16px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem; font-weight: 600;">
+                <i class="fa-solid fa-circle-check" style="margin-right: 8px;"></i> {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div style="background-color: #FEE2E2; border-left: 4px solid #EF4444; color: #991B1B; padding: 16px; border-radius: 12px; margin-bottom: 24px; font-size: 0.9rem; font-weight: 600;">
+                <i class="fa-solid fa-circle-exclamation" style="margin-right: 8px;"></i> {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- 💡 DISESUAIKAN: Cek berdasarkan jumlah data Collection $cartItems dari Database --}}
+        @if(isset($cartItems) && $cartItems->count() > 0)
         <div class="row g-4">
             <div class="col-lg-8">
                 <div style="display: flex; flex-direction: column; gap: 16px;">
                     
                     @php $total = 0; @endphp
-                    @foreach(session('cart') as $id => $details)
-                    @php $total += $details['price'] * $details['quantity']; @endphp
+                    {{-- 💡 DISESUAIKAN: Looping data $cartItems hasil query database --}}
+                    @foreach($cartItems as $item)
+                        {{-- Ambil data produk melalui Eloquent Relation --}}
+                        @php 
+                            $product = $item->product; 
+                            $total += $product->price * $item->quantity;
+                        @endphp
                     
                     <div class="cart-card">
                         <div class="cart-img-wrapper">
-                            @if($details['image'])
+                            @if($product && $product->image)
                                 @php
-                                    $imagePath = (strpos($details['image'], 'uploads/') === 0)
-                                        ? $details['image']
-                                        : 'images/' . $details['image'];
+                                    $imagePath = (strpos($product->image, 'uploads/') === 0)
+                                        ? $product->image
+                                        : 'images/' . $product->image;
                                 @endphp
-                                <img src="{{ asset($imagePath) }}" alt="{{ $details['name'] }}" loading="lazy">
+                                <img src="{{ asset($imagePath) }}" alt="{{ $product->name }}" loading="lazy">
                             @else
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #F3F4F6; color: #9CA3AF;">
                                     <i class="fa-regular fa-image"></i>
@@ -40,13 +58,14 @@
                         <div class="cart-details-wrapper">
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
                                 <div>
-                                    <h3 class="product-title-cart">{{ $details['name'] }}</h3>
+                                    <h3 class="product-title-cart">{{ $product->name ?? 'Produk Tidak Diketahui' }}</h3>
                                     <p style="font-size: 1.1rem; font-weight: 700; color: #4F46E5; margin-top: 4px; margin-bottom: 0;">
-                                        Rp{{ number_format($details['price'], 0, ',', '.') }}
+                                        Rp{{ number_format($product->price ?? 0, 0, ',', '.') }}
                                     </p>
                                 </div>
                                 
-                                <form action="{{ route('cart.remove', $id) }}" method="POST">
+                                {{-- 💡 DISESUAIKAN: Menggunakan $product->id untuk aksi hapus --}}
+                                <form action="{{ route('cart.remove', $product->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-delete-cart" title="Hapus dari keranjang">
@@ -57,10 +76,31 @@
 
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 16px; border-top: 1px solid #F3F4F6; width: 100%;">
                                 <span style="font-size: 0.85rem; color: #6B7280; font-weight: 500;">Kuantitas Belanja</span>
-                                <div style="display: flex; align-items: center; background-color: #F3F4F6; border-radius: 8px; padding: 4px 8px; gap: 12px;">
-                                    <span style="font-size: 0.9rem; font-weight: 700; color: #111827; min-width: 20px; text-align: center;">
-                                        {{ $details['quantity'] }} <span style="font-size: 0.75rem; font-weight: 500; color: #6B7280;">pcs</span>
+                                
+                                <div style="display: flex; align-items: center; background-color: #F3F4F6; border-radius: 8px; padding: 2px; gap: 4px;">
+                                    {{-- 💡 DISESUAIKAN: Menggunakan $product->id untuk tombol minus --}}
+                                    <form action="{{ route('cart.update', $product->id) }}" method="POST" style="margin: 0;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" style="background: white; border: none; border-radius: 6px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; color: #374151; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                            -
+                                        </button>
+                                    </form>
+
+                                    <span style="font-size: 0.9rem; font-weight: 700; color: #111827; min-width: 36px; text-align: center; display: inline-block;">
+                                        {{ $item->quantity }}
                                     </span>
+
+                                    {{-- 💡 DISESUAIKAN: Menggunakan $product->id untuk tombol plus --}}
+                                    <form action="{{ route('cart.update', $product->id) }}" method="POST" style="margin: 0;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" style="background: white; border: none; border-radius: 6px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; color: #374151; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                            +
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +116,7 @@
                     
                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: #4B5563;">
                         <span>Total Barang</span>
-                        <span style="font-weight: 600; color: #111827;">{{ count(session('cart')) }} Macam</span>
+                        <span style="font-weight: 600; color: #111827;">{{ $cartItems->count() }} Macam</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 0.95rem; color: #4B5563;">
                         <span>Pengiriman (Ongkir)</span>
@@ -102,7 +142,7 @@
                 <i class="fa-solid fa-bag-shopping"></i>
             </div>
             <h3 style="font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 8px;">Keranjangmu Masih Kosong</h3>
-            <p style="color: #6B7280; font-size: 0.9rem; line-height: 1.5; margin-bottom: 24px;">Kamu belum menambahkan produk apapun ke dalam keranjang belanjaanmu.</p>
+            <p style="color: #6B7280; font-size: 0.9Academicrem; line-height: 1.5; margin-bottom: 24px;">Kamu belum menambahkan produk apapun ke dalam keranjang belanjaanmu.</p>
             <a href="{{ url('/products') }}" class="btn-checkout-cart" style="background-color: #4F46E5;">Lihat Katalog Produk</a>
         </div>
         @endif

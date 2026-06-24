@@ -19,7 +19,7 @@
             @foreach($categories as $category)
                 <a href="{{ route('products.all', ['category' => $category->id]) }}" 
                    class="filter-btn {{ request('category') == $category->id ? 'active' : '' }}">
-                    {{ $category->name }}
+                     {{ $category->name }}
                 </a>
             @endforeach
         </div>
@@ -33,8 +33,9 @@
                         <span class="stock-badge">🔥 Stok Menipis</span>
                     @endif
                     
+                    {{-- 💡 LINK GAMBAR DIBAWAH INI SEKARANG MENGGUNAKAN $product->slug --}}
                     @if($product->image && str_contains($product->image, 'uploads/'))
-                        <a href="{{ route('products.show', $product->id) }}">
+                        <a href="{{ route('products.show', $product->slug) }}">
                             <img src="{{ asset($product->image) }}" 
                                  alt="{{ $product->name }}" 
                                  class="prod-img" 
@@ -42,7 +43,7 @@
                             <div class="image-overlay"></div>
                         </a>
                     @elseif($product->image && (str_contains($product->image, 'gambar-') || file_exists(public_path('images/' . $product->image))))
-                        <a href="{{ route('products.show', $product->id) }}">
+                        <a href="{{ route('products.show', $product->slug) }}">
                             <img src="{{ asset('images/' . $product->image) }}" 
                                  alt="{{ $product->name }}" 
                                  class="prod-img" 
@@ -50,7 +51,7 @@
                             <div class="image-overlay"></div>
                         </a>
                     @else
-                        <a href="{{ route('products.show', $product->id) }}">
+                        <a href="{{ route('products.show', $product->slug) }}">
                             <img src="https://placehold.co/600x600/f3f4f6/4f46e5?text={{ urlencode($product->name) }}" 
                                  alt="{{ $product->name }}" 
                                  class="prod-img" 
@@ -62,7 +63,8 @@
 
                 <div style="padding: 24px; display: flex; flex-direction: column; flex-grow: 1; background: white;">
                     <h3 style="font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 12px; line-height: 1.4; min-height: 44px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s ease;" class="product-title">
-                        <a href="{{ route('products.show', $product->id) }}" style="text-decoration: none; color: inherit; display: block;">
+                        {{-- 💡 LINK JUDUL SEKARANG MENGGUNAKAN $product->slug --}}
+                        <a href="{{ route('products.show', $product->slug) }}" style="text-decoration: none; color: inherit; display: block;">
                             {{ $product->name }}
                         </a>
                     </h3>
@@ -81,10 +83,12 @@
                     </p>
 
                     <div style="display: flex; gap: 10px; width: 100%; margin-top: auto;">
-                        <a href="{{ route('products.show', $product->id) }}" class="btn-detail-prod">
+                        {{-- 💡 LINK TOMBOL DETAIL SEKARANG MENGGUNAKAN $product->slug --}}
+                        <a href="{{ route('products.show', $product->slug) }}" class="btn-detail-prod">
                             <i class="fa-solid fa-eye"></i> Detail
                         </a>
 
+                        {{-- NOTE: Form Cart tetap menggunakan $product->id karena sistem backend keranjang belanja membutuhkan ID unik integer untuk validasi --}}
                         <form action="{{ route('cart.add', $product->id) }}" method="POST" style="flex: 1;">
                             @csrf
                             <button type="submit" class="btn-add-cart">

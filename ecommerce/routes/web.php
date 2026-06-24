@@ -20,12 +20,16 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 
 // Tampilkan Semua Produk & Detail Produk
 Route::get('/products', [ProductController::class, 'allProducts'])->name('products.all');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+// 💡 FITUR BARU: Mengubah parameter {id} menjadi {slug} agar URL produk ramah SEO
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 // Sistem Keranjang Belanja (Cart)
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::delete('/remove-from-cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+// 💡 FITUR BARU: Rute untuk mengubah kuantitas (tambah/kurang) barang di keranjang
+Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
 // Checkout & Order + Profile umum (login saja)
 Route::middleware('auth')->group(function () {
